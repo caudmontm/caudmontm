@@ -1,0 +1,57 @@
+package fr.devinombre;
+
+import java.util.Scanner;
+import java.util.Random;
+
+public class Jeu {
+    public static void main(String[] args) {
+        // Affichage du message d'accueil du jeu
+        System.out.println("_________________________|Bienvenue dans le jeu Devine le Nombre !|_________________________");
+        System.out.println("L'objectif est simple : deviner un nombre que je vais choisir au hasard entre 1 et 100. Chaque partie est unique !");
+        System.out.println("Vous commencez avec 100 points, mais chaque écart avec le nombre secret vous en fera perdre. À 0 point, c'est perdu !");
+
+        // Création du scanner pour récupérer les entrées utilisateur
+        Scanner scanner = new Scanner(System.in);
+
+        // Génération d'un nombre aléatoire entre 1 et 100
+        Random rand = new Random();
+        int randomNumber = rand.nextInt(100) + 1;
+    
+        // Initialisation du score et de la variable pour la saisie de l'utilisateur
+        int score = 100;
+        int userGuess = 0;
+
+        // Boucle principale du jeu : elle tourne tant que le score est supérieur à 0
+        while (score > 0) {
+            System.out.print("Entrez un nombre entre 1 et 100 : ");
+            userGuess = scanner.nextInt();
+            
+            // Vérification que le nombre est bien entre 1 et 100
+            if (userGuess < 1 || userGuess > 100) {
+                System.out.println("Votre nombre doit être compris entre 1 et 100. Réessayez !");
+                continue;  // Reprendre à la prochaine itération si l'entrée est invalide
+            }
+
+            // Calcul de la différence entre le nombre aléatoire et celui de l'utilisateur
+            int difference = Math.abs(randomNumber - userGuess);
+            
+            // Si l'utilisateur devine juste, le jeu se termine
+            if (userGuess == randomNumber) {
+                System.out.println("Bravo ! Vous avez trouvé le bon nombre !");
+                break;
+            }
+
+            // Réduction du score en fonction de l'écart et notification à l'utilisateur
+            score -= difference;
+            System.out.println("Dommage ! Vous perdez " + difference + " points. Il vous reste " + score + " points.");
+
+            // Vérification si le score atteint 0 ou moins, ce qui met fin à la partie
+            if (score <= 0) {
+                System.out.println("C'est perdu ! Le nombre correct était : " + randomNumber);
+            }
+        }
+
+        // Fermeture du scanner une fois la partie terminée
+        scanner.close();
+    }
+}
